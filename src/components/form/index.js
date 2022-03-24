@@ -24,18 +24,32 @@ const Form = () => {
     })
     const [copyText, setCopyText] = useState("Copy")
 
+    /**
+     * The function takes in an event object and a string.
+     * It then sets the data object to a new object with the same key but with the value of the event object's target's
+     * value
+     * @param e - The event object that was triggered.
+     */
     const handleChange = (e) => {
         setData({...data, [e.target.name]: e.target.value})
 
     }
 
+    /**
+     * This function is used to handle the submit event of the form.
+     * It prevents the default action of the form and then checks if the phone number and message are entered or not.
+     * If not, it displays an error message.
+     * If yes, it generates the link and displays it
+     * @param e - The event object that was triggered.
+     * @returns Nothing.
+     */
     const handleSubmit = (e) => {
         e.preventDefault()
 
         if(!data.phone  || !data.message) {
 
             toast.error("Please Enter the fields")
-            return;
+            return true;
         }
 
         setGenerateLink({
@@ -45,6 +59,8 @@ const Form = () => {
 
     }
 
+    /* useEffect. It is used to run a function after a component is mounted. In this case, it is used to
+    generate the link after the form is submitted. */
     useEffect(() => {
         setWhatsapp(`https://api.whatsapp.com/send?phone=${data.phone}&text=${data.message}`)
 
